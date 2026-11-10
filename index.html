@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Conversión de pauta por agencia · Anáhuac Posgrados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap">
+<style>
+  /* Layout: una columna de lectura (máx. 1040px), barra de filtros arriba, tablas con scroll propio. */
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --fg: #15243c; --muted: #5b6475; --line: #e3e5e8; --soft: #eef0f3;
+    --accent: #ff5900; --accent-fg: #ffffff; --warn: #a15c00;
+    --s1: #2f6fde; --s2: #ff5900; --s3: #12957f; --s4: #8a55d6;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --r: 10px;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1520; --panel: #161e2b; --fg: #e8ecf2; --muted: #9aa5b6; --line: #2a3445; --soft: #1d2735;
+      --accent: #ff7a33; --accent-fg: #160a02; --warn: #f0b056;
+      --s1: #6a9cf2; --s2: #ff7a33; --s3: #3cc4a8; --s4: #b08cf0;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1520; --panel: #161e2b; --fg: #e8ecf2; --muted: #9aa5b6; --line: #2a3445; --soft: #1d2735;
+    --accent: #ff7a33; --accent-fg: #160a02; --warn: #f0b056;
+    --s1: #6a9cf2; --s2: #ff7a33; --s3: #3cc4a8; --s4: #b08cf0;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html, body { margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-block: 32px 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 32px; }
+  .eyebrow { color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+  h1 { margin: 6px 0 0; font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 4.2vw, 38px); line-height: 1.15; text-wrap: balance; }
+  .lead { margin: 12px 0 0; max-width: 62ch; font-size: 18px; line-height: 1.5; }
+  .lead b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-end; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+  .grupo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .grupo > span { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { appearance: none; border: 1px solid var(--line); background: var(--soft); color: var(--fg); font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .chip:hover { border-color: var(--muted); }
+  .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); font-weight: 500; }
+  .chip .pt { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .chip:focus-visible, select:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .rango { display: flex; align-items: center; gap: 6px; }
+  select { font: inherit; font-size: 14px; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+  .reset { appearance: none; background: none; border: 0; color: var(--muted); font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; padding: 6px 2px; }
+  .aviso { max-width: 80ch; padding: 14px 18px; border-left: 3px solid var(--accent); background: var(--panel); border-radius: 0 var(--r) var(--r) 0; color: var(--muted); }
+  .aviso strong { color: var(--fg); font-weight: 600; }
+  section { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  h2 { margin: 0; font-size: 18px; font-weight: 600; text-wrap: balance; }
+  .nota { margin: 0 0 6px; max-width: 80ch; color: var(--muted); font-size: 13px; }
+  .tabla-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: 14px; }
+  th, td { padding: 9px 12px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { color: var(--muted); font-size: 12px; font-weight: 500; white-space: normal; vertical-align: bottom; min-width: 76px; background: var(--soft); }
+  tbody tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 500; }
+  tr.total td { font-weight: 600; border-top: 2px solid var(--line); }
+  tr.ref td { color: var(--muted); font-weight: 400; background: var(--soft); }
+  tr.ref td:first-child { font-style: italic; }
+  .graf { position: relative; min-height: 290px; border: 1px solid var(--line); border-radius: var(--r); background: var(--panel); padding: 12px 12px 4px; }
+  .graf svg { display: block; width: 100%; height: 280px; }
+  .graf text { fill: var(--muted); font-size: 12px; font-family: var(--sans); }
+  .leyenda { display: flex; flex-wrap: wrap; gap: 14px; margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: 13px; }
+  .leyenda li { display: flex; align-items: center; gap: 6px; }
+  .sw { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+  .tip { position: absolute; top: 12px; z-index: 3; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); box-shadow: 0 6px 20px rgba(10, 20, 40, .14); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; pointer-events: none; }
+  .tip b { display: block; margin-bottom: 4px; }
+  .tip div { display: flex; align-items: center; gap: 6px; }
+  .tip small { color: var(--muted); font-size: 12px; }
+  details { max-width: 80ch; padding-top: 16px; border-top: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 600; }
+  details ul { margin: 10px 0 0; padding-left: 1.2em; }
+  details li { margin: 6px 0; color: var(--muted); }
+  details li b { color: var(--fg); font-weight: 600; }
+  footer { color: var(--muted); font-size: 12px; }
+  .gate { min-height: 100vh; display: grid; place-items: center; padding: 24px max(16px, env(safe-area-inset-left, 0px)); }
+  .gate form { width: min(420px, 100%); display: flex; flex-direction: column; gap: 14px; padding: 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+  .gate h1 { font-size: 26px; }
+  .gate p { margin: 0; color: var(--muted); font-size: 14px; }
+  .gate label { font-size: 13px; font-weight: 500; }
+  .gate input { font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--soft); color: var(--fg); }
+  .gate button { font: inherit; font-weight: 600; padding: 10px 14px; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+  .gate .err { color: var(--warn); font-size: 13px; min-height: 1.2em; }
+  @media (max-width: 560px) { .lead { font-size: 16px; } .wrap { gap: 26px; } }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate" hidden>
+  <form id="gate-form" autocomplete="off">
+    <div class="eyebrow">Anáhuac Posgrados · Pauta de Meta</div>
+    <h1>Conversión de pauta por agencia</h1>
+    <p>Para ver el reporte, escribes la contraseña que te compartió el equipo de Black &amp; Orange.</p>
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <button type="submit" id="gate-btn">Ver el reporte</button>
+    <div class="err" id="gate-err" role="alert"></div>
+  </form>
+</div>
+
+<div id="app" hidden>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">Anáhuac Posgrados · Pauta de Meta · Foto al <span id="corte">10 de noviembre de 2026</span></div>
+      <h1>Conversión de pauta por agencia</h1>
+      <p class="lead" id="lead">—</p>
+    </header>
+
+    <div class="filtros" role="group" aria-label="Filtros">
+      <div class="grupo">
+        <span id="lbl-agencia">Agencia</span>
+        <div class="chips" id="chips" role="group" aria-labelledby="lbl-agencia"></div>
+      </div>
+      <div class="grupo">
+        <span>Mes de llegada</span>
+        <div class="rango">
+          <select id="desde" aria-label="Desde"></select>
+          <span aria-hidden="true">a</span>
+          <select id="hasta" aria-label="Hasta"></select>
+        </div>
+      </div>
+      <button class="reset" id="reset" type="button">Quitar filtros</button>
+    </div>
+
+    <aside class="aviso"><strong>Es una foto aproximada.</strong> Los datos salen de HubSpot y del BPM y no se actualizan solos. Lo más probable es que el avance real sea mayor: la mayoría de los negocios se queda en Prospecto aunque la persona avance, y no todo lo que pasa en el BPM llega a HubSpot.</aside>
+
+    <section id="por-agencia">
+      <h2>Hasta dónde llegan</h2>
+      <p class="nota">Personas únicas que llenaron un formulario de Meta de cada agencia. Cada columna cuenta a quienes llegaron por lo menos a esa etapa, en cualquiera de sus negocios. «Todas las agencias» cuenta una sola vez a quien llegó por más de una.</p>
+      <div class="tabla-wrap">
+        <table aria-label="Personas por etapa alcanzada">
+          <thead><tr>
+            <th>Agencia</th><th>Personas</th><th>Con negocio</th><th>Interesado o más</th><th>Candidato o más</th><th>Admitido o inscrito</th><th>Inscrito</th><th>Admitidos en el BPM</th><th>Siguen en Prospecto</th>
+          </tr></thead>
+          <tbody id="t-agencias"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="por-mil">
+      <h2>De cada 1,000 personas, cuántas avanzan</h2>
+      <p class="nota">La misma información en proporción, para comparar agencias de distinto tamaño.</p>
+      <div class="tabla-wrap">
+        <table aria-label="Personas que avanzan de cada 1,000">
+          <thead><tr>
+            <th>Agencia</th><th>Con negocio</th><th>Interesado o más</th><th>Candidato o más</th><th>Admitido o inscrito</th><th>Una de cada… llega a admitido</th>
+          </tr></thead>
+          <tbody id="t-mil"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="interesado-mes">
+      <h2>% que llega a Interesado o más, por mes de llegada</h2>
+      <p class="nota"><span id="nota-mc">Entre marzo y junio, Mente Creativa sube porque un flujo pasa a Interesado a quien da clic en un botón de los correos de nutrición. </span>Los meses recientes todavía no han tenido tiempo de avanzar.</p>
+      <ul class="leyenda" id="leyenda"></ul>
+      <div class="graf" id="graf"></div>
+    </section>
+
+    <section id="mensual">
+      <h2>Detalle por mes de llegada · <span id="det-agencia">Todas las agencias</span></h2>
+      <div class="tabla-wrap">
+        <table aria-label="Detalle por mes de llegada">
+          <thead><tr>
+            <th>Mes de llegada</th><th>Personas</th><th>Con negocio</th><th>Interesado o más</th><th>Candidato o más</th><th>Admitido o inscrito</th><th>Admitidos en el BPM</th><th>Siguen en Prospecto</th>
+          </tr></thead>
+          <tbody id="t-mensual"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <details id="metodo">
+      <summary>Cómo se calculó y qué tan exacto es</summary>
+      <ul>
+        <li><b>Personas.</b> Contactos de HubSpot que llenaron un formulario de Meta de esa agencia en 2026. Si alguien llenó varios, cuenta una vez por agencia, en el mes de su primer formulario. Quedan fuera los formularios de Meta que no son de ninguna de las cuatro agencias.</li>
+        <li><b>Etapas.</b> Es la etapa más avanzada a la que llegó cualquiera de sus negocios desde 7 días antes de su llegada, aunque sea de otro programa. «Interesado o más» incluye a quien siguió avanzando.</li>
+        <li><b>Admitidos en el BPM.</b> Personas con estatus «Admitido» en el BPM, actualizado después de su llegada. El BPM no tiene estatus de inscrito.</li>
+        <li><b>Por qué es aproximado.</b> Casi todos los negocios se quedan en Prospecto aunque la persona avance. El BPM no le avisa a HubSpot todos sus cambios. Quien se inscribe con otro correo no se liga a su lead. Y los leads de septiembre en adelante todavía no han tenido tiempo de pasar por una admisión.</li>
+        <li><b>Agencias.</b> Grupo Nods aparece desde junio. Impala recibió leads hasta octubre.</li>
+        <li><b>Corte.</b> 10 de noviembre de 2026, leído de HubSpot en modo de solo lectura.</li>
+      </ul>
+    </details>
+
+    <footer>Elaborado por Black &amp; Orange para Anáhuac Posgrados.</footer>
+  </main>
+</div>
+
+<script id="datos" type="application/json">null</script>
+<script>
+(() => {
+  const AGENCIAS = [
+    { id: 'todas', nombre: 'Todas las agencias', chip: 'Todas' },
+    { id: 'nods', nombre: 'Grupo Nods', serie: '--s1' },
+    { id: 'ew360', nombre: 'EW360', serie: '--s2' },
+    { id: 'impala', nombre: 'Impala', serie: '--s3' },
+    { id: 'mc', nombre: 'Mente Creativa', serie: '--s4' },
+  ];
+  const SERIES = AGENCIAS.filter((a) => a.serie);
+  const CAMPOS = ['personas', 'con_negocio', 'interesado', 'candidato', 'admitido', 'inscrito', 'bpm_admitido', 'en_prospecto'];
+  const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const MESES_LARGO = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const $ = (s) => document.querySelector(s);
+  const nf = new Intl.NumberFormat('es-MX');
+  const nf1 = new Intl.NumberFormat('es-MX', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const S = { agencia: 'todas', desde: null, hasta: null, filas: [], meses: [] };
+
+  const mesCorto = (m) => `${MESES[Number(m.slice(5)) - 1]} ${m.slice(0, 4)}`;
+  const mesLargo = (m) => MESES_LARGO[Number(m.slice(5)) - 1];
+  const color = (a) => getComputedStyle(document.documentElement).getPropertyValue(a.serie).trim();
+  const enRango = (m) => m >= S.desde && m <= S.hasta;
+  const el = (tag, props = {}, hijos = []) => {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (k === 'text') e.textContent = v; else if (k === 'class') e.className = v; else e.setAttribute(k, v);
+    }
+    for (const h of hijos) e.append(h);
+    return e;
+  };
+
+  function totales(nombre) {
+    const t = Object.fromEntries(CAMPOS.map((c) => [c, 0]));
+    for (const f of S.filas) if (f.agencia === nombre && enRango(f.mes)) for (const c of CAMPOS) t[c] += f[c];
+    return t;
+  }
+
+  function periodoTexto() {
+    if (S.desde === S.meses[0] && S.hasta === S.meses[S.meses.length - 1]) return 'en 2026';
+    if (S.desde === S.hasta) return `en ${mesLargo(S.desde)} de 2026`;
+    return `entre ${mesLargo(S.desde)} y ${mesLargo(S.hasta)} de 2026`;
+  }
+
+  function pintarLead() {
+    const ag = AGENCIAS.find((a) => a.id === S.agencia);
+    const t = totales(ag.nombre);
+    const lead = $('#lead');
+    lead.replaceChildren();
+    const b = (x) => el('b', { text: x });
+    const origen = S.agencia === 'todas' ? 'por la pauta de Meta' : `por ${ag.nombre}`;
+    if (!t.personas) { lead.append(`No hay personas que hayan llegado ${origen} ${periodoTexto()}.`); return; }
+    lead.append('De ', b(nf.format(t.personas)), ` personas que llegaron ${origen} ${periodoTexto()}, `);
+    if (t.admitido) lead.append(b(nf.format(t.admitido)), ' llegaron a admitido o inscrito en HubSpot: 1 de cada ', b(nf.format(Math.round(t.personas / t.admitido))), '. ');
+    else lead.append('ninguna ha llegado todavía a admitido o inscrito en HubSpot. ');
+    lead.append('El ', b(nf1.format(t.en_prospecto / t.personas * 100)), ' % sigue con su negocio en Prospecto.');
+  }
+
+  function filasTabla() {
+    if (S.agencia === 'todas') return AGENCIAS.slice(1).concat(AGENCIAS[0]).map((a) => ({ a, clase: a.id === 'todas' ? 'total' : '' }));
+    const a = AGENCIAS.find((x) => x.id === S.agencia);
+    return [{ a, clase: '' }, { a: AGENCIAS[0], clase: 'ref', etiqueta: 'Todas las agencias (referencia)' }];
+  }
+
+  function pintarTablas() {
+    const tb1 = $('#t-agencias'); const tb2 = $('#t-mil');
+    tb1.replaceChildren(); tb2.replaceChildren();
+    for (const { a, clase, etiqueta } of filasTabla()) {
+      const t = totales(a.nombre);
+      const nombre = etiqueta || a.nombre;
+      tb1.append(el('tr', { class: clase }, [el('td', { text: nombre }), ...CAMPOS.map((c) => el('td', { text: nf.format(t[c]) }))]));
+      const mil = (c) => (t.personas ? nf1.format(t[c] / t.personas * 1000) : '—');
+      const una = t.admitido ? nf.format(Math.round(t.personas / t.admitido)) : '—';
+      tb2.append(el('tr', { class: clase }, [el('td', { text: nombre }), el('td', { text: mil('con_negocio') }), el('td', { text: mil('interesado') }), el('td', { text: mil('candidato') }), el('td', { text: mil('admitido') }), el('td', { text: una })]));
+    }
+  }
+
+  function pintarDetalle() {
+    const ag = AGENCIAS.find((a) => a.id === S.agencia);
+    $('#det-agencia').textContent = ag.nombre;
+    const campos = ['personas', 'con_negocio', 'interesado', 'candidato', 'admitido', 'bpm_admitido', 'en_prospecto'];
+    const filas = S.filas.filter((f) => f.agencia === ag.nombre && enRango(f.mes)).sort((p, q) => (p.mes < q.mes ? -1 : 1));
+    const tb = $('#t-mensual');
+    tb.replaceChildren();
+    if (!filas.length) { tb.append(el('tr', {}, [el('td', { text: 'Sin leads en estos meses.', colspan: '8' })])); return; }
+    for (const f of filas) tb.append(el('tr', {}, [el('td', { text: mesCorto(f.mes) }), ...campos.map((c) => el('td', { text: nf.format(f[c]) }))]));
+    if (filas.length > 1) {
+      const t = totales(ag.nombre);
+      tb.append(el('tr', { class: 'total' }, [el('td', { text: 'Total' }), ...campos.map((c) => el('td', { text: nf.format(t[c]) }))]));
+    }
+  }
+
+  function ticksBonitos(max) {
+    const crudo = max / 5;
+    const p = Math.pow(10, Math.floor(Math.log10(crudo || 1)));
+    const paso = [1, 2, 2.5, 5, 10].map((k) => k * p).find((k) => k >= crudo) || 10 * p;
+    const tope = Math.ceil(max / paso) * paso || paso;
+    const t = [];
+    for (let v = 0; v <= tope + 1e-9; v += paso) t.push(Math.round(v * 100) / 100);
+    return t;
+  }
+
+  function pintarGrafica() {
+    const caja = $('#graf');
+    caja.replaceChildren();
+    $('#nota-mc').hidden = !['todas', 'mc'].includes(S.agencia);
+    const series = S.agencia === 'todas' ? SERIES : SERIES.filter((a) => a.id === S.agencia);
+    const leyenda = $('#leyenda');
+    leyenda.replaceChildren(...series.map((a) => el('li', {}, [Object.assign(el('span', { class: 'sw' }), { style: `background:${color(a)}` }), a.nombre])));
+    const meses = S.meses.filter(enRango);
+    const datos = series.map((a) => ({
+      a,
+      puntos: S.filas.filter((f) => f.agencia === a.nombre && enRango(f.mes) && f.personas > 0)
+        .sort((p, q) => (p.mes < q.mes ? -1 : 1))
+        .map((f) => ({ mes: f.mes, pct: Math.round(f.interesado / f.personas * 1000) / 10, interesado: f.interesado, personas: f.personas })),
+    }));
+    const todos = datos.flatMap((d) => d.puntos);
+    if (!todos.length) { caja.append(el('p', { class: 'nota', text: 'Sin datos en estos meses.' })); return; }
+    const W = Math.max(caja.clientWidth - 24, 260); const H = 280;
+    const NS = 'http://www.w3.org/2000/svg';
+    const s = (tag, attrs = {}) => { const e = document.createElementNS(NS, tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); return e; };
+    const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `Porcentaje que llegó a Interesado o más, por mes de llegada: ${series.map((a) => a.nombre).join(', ')}` });
+    caja.append(svg);
+    const ticks = ticksBonitos(Math.max(...todos.map((p) => p.pct), 1));
+    const top = 26; const bottom = H - 26;
+    const y = (v) => bottom - (v / ticks[ticks.length - 1]) * (bottom - top);
+    const etiquetas = ticks.map((t) => { const tx = s('text', { x: 0, y: y(t), dy: '0.32em' }); tx.textContent = `${nf.format(t)} %`; svg.append(tx); return tx; });
+    const ml = Math.ceil(Math.max(...etiquetas.map((t) => t.getComputedTextLength()))) + 12;
+    const mr = 14;
+    const n = meses.length;
+    const paso = n > 1 ? (W - ml - mr) / (n - 1 + 0.7) : (W - ml - mr);
+    const x0 = ml + (n > 1 ? paso * 0.35 : (W - ml - mr) / 2);
+    const x = (m) => x0 + meses.indexOf(m) * paso;
+    ticks.forEach((t) => svg.insertBefore(s('line', { x1: ml, x2: W - mr, y1: y(t), y2: y(t), stroke: 'var(--line)', 'stroke-width': 1 }), svg.firstChild));
+    const salto = W < 460 && n > 6 ? 2 : 1;
+    meses.forEach((m, i) => { if (i % salto) return; const tx = s('text', { x: x(m), y: H - 6, 'text-anchor': 'middle' }); tx.textContent = MESES[Number(m.slice(5)) - 1]; svg.append(tx); });
+    for (const d of datos) {
+      if (!d.puntos.length) continue;
+      const c = color(d.a);
+      svg.append(s('path', { d: d.puntos.map((p, i) => `${i ? 'L' : 'M'}${x(p.mes)},${y(p.pct)}`).join(' '), fill: 'none', stroke: c, 'stroke-width': 2.2, 'stroke-linejoin': 'round' }));
+      for (const p of d.puntos) {
+        svg.append(s('circle', { cx: x(p.mes), cy: y(p.pct), r: 3.5, fill: c }));
+        if (series.length === 1) { const tx = s('text', { x: x(p.mes), y: y(p.pct) - 9, 'text-anchor': 'middle' }); tx.textContent = nf1.format(p.pct); svg.append(tx); }
+      }
+    }
+    const tip = el('div', { class: 'tip' }); tip.hidden = true; caja.append(tip);
+    const mostrar = (m) => {
+      tip.replaceChildren(el('b', { text: mesCorto(m) }));
+      for (const d of datos) {
+        const p = d.puntos.find((q) => q.mes === m);
+        if (!p) continue;
+        tip.append(el('div', {}, [Object.assign(el('span', { class: 'sw' }), { style: `background:${color(d.a)}` }), `${d.a.nombre}: ${nf1.format(p.pct)} %`, el('small', { text: `(${nf.format(p.interesado)} de ${nf.format(p.personas)})` })]));
+      }
+      tip.hidden = false;
+      const escala = caja.clientWidth / W;
+      let left = 12 + x(m) * escala + 12;
+      if (left + tip.offsetWidth > caja.clientWidth) left = Math.max(4, 12 + x(m) * escala - 12 - tip.offsetWidth);
+      tip.style.left = `${left}px`;
+    };
+    for (const m of meses) {
+      const r = s('rect', { x: x(m) - paso / 2, y: 0, width: paso, height: H - 20, fill: 'transparent' });
+      r.addEventListener('pointerenter', () => mostrar(m));
+      r.addEventListener('pointerdown', () => mostrar(m));
+      r.addEventListener('pointerleave', () => { tip.hidden = true; });
+      svg.append(r);
+    }
+  }
+
+  function pintarFiltros() {
+    for (const b of document.querySelectorAll('#chips .chip')) b.setAttribute('aria-pressed', String(b.dataset.id === S.agencia));
+    $('#desde').value = S.desde; $('#hasta').value = S.hasta;
+  }
+
+  function guardarHash() {
+    const p = new URLSearchParams();
+    if (S.agencia !== 'todas') p.set('agencia', S.agencia);
+    if (S.desde !== S.meses[0]) p.set('desde', S.desde);
+    if (S.hasta !== S.meses[S.meses.length - 1]) p.set('hasta', S.hasta);
+    const h = p.toString();
+    history.replaceState(null, '', h ? `#${h}` : location.pathname + location.search);
+  }
+
+  function pintar() { pintarFiltros(); pintarLead(); pintarTablas(); pintarGrafica(); pintarDetalle(); guardarHash(); }
+
+  function arrancar(datos) {
+    S.filas = datos.filas.map((f) => ({ ...f, ...Object.fromEntries(CAMPOS.map((c) => [c, Number(f[c]) || 0])) }));
+    S.meses = Array.from(new Set(S.filas.map((f) => f.mes))).sort();
+    if (datos.corte) $('#corte').textContent = datos.corte;
+    const p = new URLSearchParams(location.hash.slice(1));
+    S.agencia = AGENCIAS.some((a) => a.id === p.get('agencia')) ? p.get('agencia') : 'todas';
+    S.desde = S.meses.includes(p.get('desde')) ? p.get('desde') : S.meses[0];
+    S.hasta = S.meses.includes(p.get('hasta')) ? p.get('hasta') : S.meses[S.meses.length - 1];
+    if (S.desde > S.hasta) [S.desde, S.hasta] = [S.hasta, S.desde];
+    const chips = $('#chips');
+    for (const a of AGENCIAS) {
+      const b = el('button', { class: 'chip', type: 'button', 'data-id': a.id, 'aria-pressed': 'false' });
+      if (a.serie) b.append(Object.assign(el('span', { class: 'pt' }), { style: `background:${color(a)}` }));
+      b.append(a.chip || a.nombre);
+      b.addEventListener('click', () => { S.agencia = a.id; pintar(); });
+      chips.append(b);
+    }
+    for (const sel of [$('#desde'), $('#hasta')]) {
+      sel.replaceChildren(...S.meses.map((m) => new Option(mesCorto(m), m)));
+    }
+    $('#desde').addEventListener('change', (e) => { S.desde = e.target.value; if (S.desde > S.hasta) S.hasta = S.desde; pintar(); });
+    $('#hasta').addEventListener('change', (e) => { S.hasta = e.target.value; if (S.hasta < S.desde) S.desde = S.hasta; pintar(); });
+    $('#reset').addEventListener('click', () => { S.agencia = 'todas'; S.desde = S.meses[0]; S.hasta = S.meses[S.meses.length - 1]; pintar(); });
+    $('#gate').hidden = true; $('#app').hidden = false;
+    pintar();
+    let ancho = $('#graf').clientWidth;
+    new ResizeObserver(() => { const w = $('#graf').clientWidth; if (Math.abs(w - ancho) > 4) { ancho = w; pintarGrafica(); } }).observe($('#graf'));
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', pintar);
+  }
+
+  /* ---------- Datos: incrustados (archivo descargable) o cifrados (página publicada) ---------- */
+  const b64 = (x) => Uint8Array.from(atob(x), (c) => c.charCodeAt(0));
+  async function derivar(pw, sobre) {
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(sobre.sal), iterations: sobre.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, true, ['decrypt']);
+  }
+  async function abrir(sobre, llave) {
+    const plano = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(sobre.iv) }, llave, b64(sobre.datos));
+    const flujo = new Blob([plano]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return JSON.parse(await new Response(flujo).text());
+  }
+  async function conContrasena() {
+    $('#gate').hidden = false;
+    if (!window.crypto?.subtle || !('DecompressionStream' in window)) {
+      $('#gate-err').textContent = 'Este navegador no puede abrir el reporte. Para verlo, lo abres en una versión reciente de Chrome, Edge, Safari o Firefox.';
+      $('#gate-btn').disabled = true; return;
+    }
+    let sobre;
+    try { const r = await fetch(`data.enc.json?v=${Date.now()}`, { cache: 'no-store' }); if (!r.ok) throw new Error(); sobre = await r.json(); }
+    catch (e) { $('#gate-err').textContent = 'No se encontró el archivo del reporte.'; return; }
+    try {
+      const g = JSON.parse(sessionStorage.getItem('cp_llave') || 'null');
+      if (g && g.sal === sobre.sal) { const k = await crypto.subtle.importKey('raw', b64(g.k), { name: 'AES-GCM' }, true, ['decrypt']); return arrancar(await abrir(sobre, k)); }
+    } catch (e) { /* se pide la contraseña */ }
+    $('#pw').focus();
+    $('#gate-form').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      $('#gate-err').textContent = ''; $('#gate-btn').disabled = true; $('#gate-btn').textContent = 'Abriendo…';
+      try {
+        const k = await derivar($('#pw').value, sobre);
+        const datos = await abrir(sobre, k);
+        try { const raw = await crypto.subtle.exportKey('raw', k); sessionStorage.setItem('cp_llave', JSON.stringify({ sal: sobre.sal, k: btoa(String.fromCharCode(...new Uint8Array(raw))) })); } catch (e) { /* sin almacenamiento */ }
+        arrancar(datos);
+      } catch (e) {
+        $('#gate-err').textContent = 'La contraseña no es correcta. Para intentarlo de nuevo, la vuelves a escribir.';
+      } finally { $('#gate-btn').disabled = false; $('#gate-btn').textContent = 'Ver el reporte'; }
+    });
+  }
+
+  let incrustados = null;
+  try { incrustados = JSON.parse($('#datos').textContent); } catch (e) { incrustados = null; }
+  if (incrustados && incrustados.filas) arrancar(incrustados); else conContrasena();
+})();
+</script>
+</body>
+</html>
